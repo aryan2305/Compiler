@@ -1,0 +1,2658 @@
+State 7 conflicts: 1 reduce/reduce
+State 8 conflicts: 1 reduce/reduce
+State 18 conflicts: 1 shift/reduce
+State 32 conflicts: 1 shift/reduce
+State 33 conflicts: 1 shift/reduce
+State 35 conflicts: 1 shift/reduce
+State 36 conflicts: 1 shift/reduce
+State 38 conflicts: 1 shift/reduce
+State 39 conflicts: 6 shift/reduce
+State 40 conflicts: 5 shift/reduce
+State 147 conflicts: 6 shift/reduce, 1 reduce/reduce
+State 157 conflicts: 1 reduce/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: header_files global_declaration_list main_function
+
+    2 header_files: HEADER header_files
+    3             | %empty
+
+    4 global_declaration_list: global_declaration_list global_declaration
+    5                        | %empty
+
+    6 global_declaration: variable_declaration
+    7                   | func_declaration
+
+    8 variable_declaration: data_type_var variable SEMI
+
+    9 variable: name
+   10         | name COMMA variable
+   11         | name ASSIGN conditions
+   12         | name ASSIGN conditions COMMA variable
+
+   13 func_declaration: data_type_func name LB arguments_list RB LCB statements RCB
+
+   14 arguments_list: argument
+   15               | argument COMMA arguments_list
+
+   16 argument: data_type_var name
+
+   17 data_type_var: INT
+   18              | FLOAT
+
+   19 data_type_func: INT
+   20               | FLOAT
+   21               | VOID
+
+   22 name: ID
+
+   23 value: NUM_FP
+   24      | NUM_INT
+
+   25 main_function: data_type_func MAIN LB RB LCB statements RCB
+
+   26 statements: expression statements
+   27           | %empty
+
+   28 expression: variable_declaration
+   29           | read_input
+   30           | print_output
+   31           | conditional_expr
+   32           | assignment_expr SEMI
+   33           | looping_expr
+   34           | return_expr
+   35           | conditions SEMI
+   36           | BREAK SEMI
+   37           | CONTINUE SEMI
+   38           | LCB expression RCB
+
+   39 read_input: GET LB name RB SEMI
+
+   40 print_output: PUT LB name RB SEMI
+
+   41 conditional_expr: if_expr
+   42                 | switch_expr
+
+   43 if_expr: IF LB conditions RB LCB statements RCB
+   44        | IF LB conditions RB LCB statements RCB ELSE LCB statements RCB
+
+   45 switch_expr: SWITCH LB name RB LCB switch_cases RCB
+
+   46 switch_cases: CASE value COLON statements switch_cases
+   47             | CASE value COLON statements
+   48             | DEFAULT COLON statements
+
+   49 looping_expr: for_expr
+   50             | while_expr
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions SEMI assignment_expr RB LCB statements RCB
+
+   52 while_expr: WHILE LB conditions RB LCB statements RCB
+
+   53 assignment_expr: name ASSIGN arithmetic_expr
+   54                | data_type_var name ASSIGN arithmetic_expr
+
+   55 conditions: variable EQ conditions
+   56           | logical_expr
+
+   57 logical_expr: logical_expr OR and_expr
+   58             | and_expr
+
+   59 and_expr: relation_expr AND and_expr
+   60         | relation_expr
+
+   61 relation_expr: arithmetic_expr op1 relation_expr
+   62              | arithmetic_expr
+
+   63 arithmetic_expr: div_mul_expr op2 arithmetic_expr
+   64                | div_mul_expr
+
+   65 div_mul_expr: div_mul_expr op3 unary_expr
+   66             | unary_expr
+
+   67 unary_expr: op2 term
+   68           | term
+
+   69 term: LB conditions RB
+   70     | NOT term
+   71     | variable
+   72     | value
+   73     | function_calls
+
+   74 function_calls: name LB fc_argument_list RB
+
+   75 fc_argument_list: arithmetic_expr COMMA fc_argument_list
+   76                 | arithmetic_expr
+   77                 | %empty
+
+   78 op1: LT
+   79    | GT
+   80    | LTEQ
+   81    | GTEQ
+   82    | EQ
+   83    | NEQ
+
+   84 op2: PLUS
+   85    | MINUS
+
+   86 op3: MULT
+   87    | DIVIDE
+   88    | MOD
+
+   89 return_expr: RETURN SEMI
+   90            | RETURN value SEMI
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INT (258) 17 19
+FLOAT (259) 18 20
+VOID (260) 21
+LT (261) 78
+GT (262) 79
+LTEQ (263) 80
+GTEQ (264) 81
+EQ (265) 55 82
+NEQ (266) 83
+AND (267) 59
+OR (268) 57
+NOT (269) 70
+ASSIGN (270) 11 12 53 54
+PLUS (271) 84
+MINUS (272) 85
+DIVIDE (273) 87
+MULT (274) 86
+MOD (275) 88
+SEMI (276) 8 32 35 36 37 39 40 51 89 90
+COLON (277) 46 47 48
+COMMA (278) 10 12 15 75
+LB (279) 13 25 39 40 43 44 45 51 52 69 74
+RB (280) 13 25 39 40 43 44 45 51 52 69 74
+LCB (281) 13 25 38 43 44 45 51 52
+RCB (282) 13 25 38 43 44 45 51 52
+NUM_INT (283) 24
+NUM_FP (284) 23
+ID (285) 22
+HEADER (286) 2
+MAIN (287) 25
+FOR (288) 51
+WHILE (289) 52
+IF (290) 43 44
+ELSE (291) 44
+SWITCH (292) 45
+CASE (293) 46 47
+RETURN (294) 89 90
+GET (295) 39
+PUT (296) 40
+BREAK (297) 36
+CONTINUE (298) 37
+DEFAULT (299) 48
+
+
+Nonterminals, with rules where they appear
+
+$accept (45)
+    on left: 0
+program (46)
+    on left: 1, on right: 0
+header_files (47)
+    on left: 2 3, on right: 1 2
+global_declaration_list (48)
+    on left: 4 5, on right: 1 4
+global_declaration (49)
+    on left: 6 7, on right: 4
+variable_declaration (50)
+    on left: 8, on right: 6 28
+variable (51)
+    on left: 9 10 11 12, on right: 8 10 12 55 71
+func_declaration (52)
+    on left: 13, on right: 7
+arguments_list (53)
+    on left: 14 15, on right: 13 15
+argument (54)
+    on left: 16, on right: 14 15
+data_type_var (55)
+    on left: 17 18, on right: 8 16 54
+data_type_func (56)
+    on left: 19 20 21, on right: 13 25
+name (57)
+    on left: 22, on right: 9 10 11 12 13 16 39 40 45 53 54 74
+value (58)
+    on left: 23 24, on right: 46 47 72 90
+main_function (59)
+    on left: 25, on right: 1
+statements (60)
+    on left: 26 27, on right: 13 25 26 43 44 46 47 48 51 52
+expression (61)
+    on left: 28 29 30 31 32 33 34 35 36 37 38, on right: 26 38
+read_input (62)
+    on left: 39, on right: 29
+print_output (63)
+    on left: 40, on right: 30
+conditional_expr (64)
+    on left: 41 42, on right: 31
+if_expr (65)
+    on left: 43 44, on right: 41
+switch_expr (66)
+    on left: 45, on right: 42
+switch_cases (67)
+    on left: 46 47 48, on right: 45 46
+looping_expr (68)
+    on left: 49 50, on right: 33
+for_expr (69)
+    on left: 51, on right: 49
+while_expr (70)
+    on left: 52, on right: 50
+assignment_expr (71)
+    on left: 53 54, on right: 32 51
+conditions (72)
+    on left: 55 56, on right: 11 12 35 43 44 51 52 55 69
+logical_expr (73)
+    on left: 57 58, on right: 56 57
+and_expr (74)
+    on left: 59 60, on right: 57 58 59
+relation_expr (75)
+    on left: 61 62, on right: 59 60 61
+arithmetic_expr (76)
+    on left: 63 64, on right: 53 54 61 62 63 75 76
+div_mul_expr (77)
+    on left: 65 66, on right: 63 64 65
+unary_expr (78)
+    on left: 67 68, on right: 65 66
+term (79)
+    on left: 69 70 71 72 73, on right: 67 68 70
+function_calls (80)
+    on left: 74, on right: 73
+fc_argument_list (81)
+    on left: 75 76 77, on right: 74 75
+op1 (82)
+    on left: 78 79 80 81 82 83, on right: 61
+op2 (83)
+    on left: 84 85, on right: 63 67
+op3 (84)
+    on left: 86 87 88, on right: 65
+return_expr (85)
+    on left: 89 90, on right: 34
+
+
+State 0
+
+    0 $accept: . program $end
+
+    HEADER  shift, and go to state 1
+
+    $default  reduce using rule 3 (header_files)
+
+    program       go to state 2
+    header_files  go to state 3
+
+
+State 1
+
+    2 header_files: HEADER . header_files
+
+    HEADER  shift, and go to state 1
+
+    $default  reduce using rule 3 (header_files)
+
+    header_files  go to state 4
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 5
+
+
+State 3
+
+    1 program: header_files . global_declaration_list main_function
+
+    $default  reduce using rule 5 (global_declaration_list)
+
+    global_declaration_list  go to state 6
+
+
+State 4
+
+    2 header_files: HEADER header_files .
+
+    $default  reduce using rule 2 (header_files)
+
+
+State 5
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 6
+
+    1 program: header_files global_declaration_list . main_function
+    4 global_declaration_list: global_declaration_list . global_declaration
+
+    INT    shift, and go to state 7
+    FLOAT  shift, and go to state 8
+    VOID   shift, and go to state 9
+
+    global_declaration    go to state 10
+    variable_declaration  go to state 11
+    func_declaration      go to state 12
+    data_type_var         go to state 13
+    data_type_func        go to state 14
+    main_function         go to state 15
+
+
+State 7
+
+   17 data_type_var: INT .
+   19 data_type_func: INT .
+
+    ID        reduce using rule 17 (data_type_var)
+    ID        [reduce using rule 19 (data_type_func)]
+    MAIN      reduce using rule 19 (data_type_func)
+    $default  reduce using rule 17 (data_type_var)
+
+
+State 8
+
+   18 data_type_var: FLOAT .
+   20 data_type_func: FLOAT .
+
+    ID        reduce using rule 18 (data_type_var)
+    ID        [reduce using rule 20 (data_type_func)]
+    MAIN      reduce using rule 20 (data_type_func)
+    $default  reduce using rule 18 (data_type_var)
+
+
+State 9
+
+   21 data_type_func: VOID .
+
+    $default  reduce using rule 21 (data_type_func)
+
+
+State 10
+
+    4 global_declaration_list: global_declaration_list global_declaration .
+
+    $default  reduce using rule 4 (global_declaration_list)
+
+
+State 11
+
+    6 global_declaration: variable_declaration .
+
+    $default  reduce using rule 6 (global_declaration)
+
+
+State 12
+
+    7 global_declaration: func_declaration .
+
+    $default  reduce using rule 7 (global_declaration)
+
+
+State 13
+
+    8 variable_declaration: data_type_var . variable SEMI
+
+    ID  shift, and go to state 16
+
+    variable  go to state 17
+    name      go to state 18
+
+
+State 14
+
+   13 func_declaration: data_type_func . name LB arguments_list RB LCB statements RCB
+   25 main_function: data_type_func . MAIN LB RB LCB statements RCB
+
+    ID    shift, and go to state 16
+    MAIN  shift, and go to state 19
+
+    name  go to state 20
+
+
+State 15
+
+    1 program: header_files global_declaration_list main_function .
+
+    $default  reduce using rule 1 (program)
+
+
+State 16
+
+   22 name: ID .
+
+    $default  reduce using rule 22 (name)
+
+
+State 17
+
+    8 variable_declaration: data_type_var variable . SEMI
+
+    SEMI  shift, and go to state 21
+
+
+State 18
+
+    9 variable: name .
+   10         | name . COMMA variable
+   11         | name . ASSIGN conditions
+   12         | name . ASSIGN conditions COMMA variable
+
+    ASSIGN  shift, and go to state 22
+    COMMA   shift, and go to state 23
+
+    COMMA     [reduce using rule 9 (variable)]
+    $default  reduce using rule 9 (variable)
+
+
+State 19
+
+   25 main_function: data_type_func MAIN . LB RB LCB statements RCB
+
+    LB  shift, and go to state 24
+
+
+State 20
+
+   13 func_declaration: data_type_func name . LB arguments_list RB LCB statements RCB
+
+    LB  shift, and go to state 25
+
+
+State 21
+
+    8 variable_declaration: data_type_var variable SEMI .
+
+    $default  reduce using rule 8 (variable_declaration)
+
+
+State 22
+
+   11 variable: name ASSIGN . conditions
+   12         | name ASSIGN . conditions COMMA variable
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 35
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 23
+
+   10 variable: name COMMA . variable
+
+    ID  shift, and go to state 16
+
+    variable  go to state 45
+    name      go to state 18
+
+
+State 24
+
+   25 main_function: data_type_func MAIN LB . RB LCB statements RCB
+
+    RB  shift, and go to state 46
+
+
+State 25
+
+   13 func_declaration: data_type_func name LB . arguments_list RB LCB statements RCB
+
+    INT    shift, and go to state 47
+    FLOAT  shift, and go to state 48
+
+    arguments_list  go to state 49
+    argument        go to state 50
+    data_type_var   go to state 51
+
+
+State 26
+
+   70 term: NOT . term
+
+    NOT      shift, and go to state 26
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable        go to state 52
+    name            go to state 33
+    value           go to state 34
+    term            go to state 53
+    function_calls  go to state 43
+
+
+State 27
+
+   84 op2: PLUS .
+
+    $default  reduce using rule 84 (op2)
+
+
+State 28
+
+   85 op2: MINUS .
+
+    $default  reduce using rule 85 (op2)
+
+
+State 29
+
+   69 term: LB . conditions RB
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 54
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 30
+
+   24 value: NUM_INT .
+
+    $default  reduce using rule 24 (value)
+
+
+State 31
+
+   23 value: NUM_FP .
+
+    $default  reduce using rule 23 (value)
+
+
+State 32
+
+   55 conditions: variable . EQ conditions
+   71 term: variable .
+
+    EQ  shift, and go to state 55
+
+    EQ        [reduce using rule 71 (term)]
+    $default  reduce using rule 71 (term)
+
+
+State 33
+
+    9 variable: name .
+   10         | name . COMMA variable
+   11         | name . ASSIGN conditions
+   12         | name . ASSIGN conditions COMMA variable
+   74 function_calls: name . LB fc_argument_list RB
+
+    ASSIGN  shift, and go to state 22
+    COMMA   shift, and go to state 23
+    LB      shift, and go to state 56
+
+    COMMA     [reduce using rule 9 (variable)]
+    $default  reduce using rule 9 (variable)
+
+
+State 34
+
+   72 term: value .
+
+    $default  reduce using rule 72 (term)
+
+
+State 35
+
+   11 variable: name ASSIGN conditions .
+   12         | name ASSIGN conditions . COMMA variable
+
+    COMMA  shift, and go to state 57
+
+    COMMA     [reduce using rule 11 (variable)]
+    $default  reduce using rule 11 (variable)
+
+
+State 36
+
+   56 conditions: logical_expr .
+   57 logical_expr: logical_expr . OR and_expr
+
+    OR  shift, and go to state 58
+
+    OR        [reduce using rule 56 (conditions)]
+    $default  reduce using rule 56 (conditions)
+
+
+State 37
+
+   58 logical_expr: and_expr .
+
+    $default  reduce using rule 58 (logical_expr)
+
+
+State 38
+
+   59 and_expr: relation_expr . AND and_expr
+   60         | relation_expr .
+
+    AND  shift, and go to state 59
+
+    AND       [reduce using rule 60 (and_expr)]
+    $default  reduce using rule 60 (and_expr)
+
+
+State 39
+
+   61 relation_expr: arithmetic_expr . op1 relation_expr
+   62              | arithmetic_expr .
+
+    LT    shift, and go to state 60
+    GT    shift, and go to state 61
+    LTEQ  shift, and go to state 62
+    GTEQ  shift, and go to state 63
+    EQ    shift, and go to state 64
+    NEQ   shift, and go to state 65
+
+    LT        [reduce using rule 62 (relation_expr)]
+    GT        [reduce using rule 62 (relation_expr)]
+    LTEQ      [reduce using rule 62 (relation_expr)]
+    GTEQ      [reduce using rule 62 (relation_expr)]
+    EQ        [reduce using rule 62 (relation_expr)]
+    NEQ       [reduce using rule 62 (relation_expr)]
+    $default  reduce using rule 62 (relation_expr)
+
+    op1  go to state 66
+
+
+State 40
+
+   63 arithmetic_expr: div_mul_expr . op2 arithmetic_expr
+   64                | div_mul_expr .
+   65 div_mul_expr: div_mul_expr . op3 unary_expr
+
+    PLUS    shift, and go to state 27
+    MINUS   shift, and go to state 28
+    DIVIDE  shift, and go to state 67
+    MULT    shift, and go to state 68
+    MOD     shift, and go to state 69
+
+    PLUS      [reduce using rule 64 (arithmetic_expr)]
+    MINUS     [reduce using rule 64 (arithmetic_expr)]
+    DIVIDE    [reduce using rule 64 (arithmetic_expr)]
+    MULT      [reduce using rule 64 (arithmetic_expr)]
+    MOD       [reduce using rule 64 (arithmetic_expr)]
+    $default  reduce using rule 64 (arithmetic_expr)
+
+    op2  go to state 70
+    op3  go to state 71
+
+
+State 41
+
+   66 div_mul_expr: unary_expr .
+
+    $default  reduce using rule 66 (div_mul_expr)
+
+
+State 42
+
+   68 unary_expr: term .
+
+    $default  reduce using rule 68 (unary_expr)
+
+
+State 43
+
+   73 term: function_calls .
+
+    $default  reduce using rule 73 (term)
+
+
+State 44
+
+   67 unary_expr: op2 . term
+
+    NOT      shift, and go to state 26
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable        go to state 52
+    name            go to state 33
+    value           go to state 34
+    term            go to state 72
+    function_calls  go to state 43
+
+
+State 45
+
+   10 variable: name COMMA variable .
+
+    $default  reduce using rule 10 (variable)
+
+
+State 46
+
+   25 main_function: data_type_func MAIN LB RB . LCB statements RCB
+
+    LCB  shift, and go to state 73
+
+
+State 47
+
+   17 data_type_var: INT .
+
+    $default  reduce using rule 17 (data_type_var)
+
+
+State 48
+
+   18 data_type_var: FLOAT .
+
+    $default  reduce using rule 18 (data_type_var)
+
+
+State 49
+
+   13 func_declaration: data_type_func name LB arguments_list . RB LCB statements RCB
+
+    RB  shift, and go to state 74
+
+
+State 50
+
+   14 arguments_list: argument .
+   15               | argument . COMMA arguments_list
+
+    COMMA  shift, and go to state 75
+
+    $default  reduce using rule 14 (arguments_list)
+
+
+State 51
+
+   16 argument: data_type_var . name
+
+    ID  shift, and go to state 16
+
+    name  go to state 76
+
+
+State 52
+
+   71 term: variable .
+
+    $default  reduce using rule 71 (term)
+
+
+State 53
+
+   70 term: NOT term .
+
+    $default  reduce using rule 70 (term)
+
+
+State 54
+
+   69 term: LB conditions . RB
+
+    RB  shift, and go to state 77
+
+
+State 55
+
+   55 conditions: variable EQ . conditions
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 78
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 56
+
+   74 function_calls: name LB . fc_argument_list RB
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    $default  reduce using rule 77 (fc_argument_list)
+
+    variable          go to state 52
+    name              go to state 33
+    value             go to state 34
+    arithmetic_expr   go to state 79
+    div_mul_expr      go to state 40
+    unary_expr        go to state 41
+    term              go to state 42
+    function_calls    go to state 43
+    fc_argument_list  go to state 80
+    op2               go to state 44
+
+
+State 57
+
+   12 variable: name ASSIGN conditions COMMA . variable
+
+    ID  shift, and go to state 16
+
+    variable  go to state 81
+    name      go to state 18
+
+
+State 58
+
+   57 logical_expr: logical_expr OR . and_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 52
+    name             go to state 33
+    value            go to state 34
+    and_expr         go to state 82
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 59
+
+   59 and_expr: relation_expr AND . and_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 52
+    name             go to state 33
+    value            go to state 34
+    and_expr         go to state 83
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 60
+
+   78 op1: LT .
+
+    $default  reduce using rule 78 (op1)
+
+
+State 61
+
+   79 op1: GT .
+
+    $default  reduce using rule 79 (op1)
+
+
+State 62
+
+   80 op1: LTEQ .
+
+    $default  reduce using rule 80 (op1)
+
+
+State 63
+
+   81 op1: GTEQ .
+
+    $default  reduce using rule 81 (op1)
+
+
+State 64
+
+   82 op1: EQ .
+
+    $default  reduce using rule 82 (op1)
+
+
+State 65
+
+   83 op1: NEQ .
+
+    $default  reduce using rule 83 (op1)
+
+
+State 66
+
+   61 relation_expr: arithmetic_expr op1 . relation_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 52
+    name             go to state 33
+    value            go to state 34
+    relation_expr    go to state 84
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 67
+
+   87 op3: DIVIDE .
+
+    $default  reduce using rule 87 (op3)
+
+
+State 68
+
+   86 op3: MULT .
+
+    $default  reduce using rule 86 (op3)
+
+
+State 69
+
+   88 op3: MOD .
+
+    $default  reduce using rule 88 (op3)
+
+
+State 70
+
+   63 arithmetic_expr: div_mul_expr op2 . arithmetic_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 52
+    name             go to state 33
+    value            go to state 34
+    arithmetic_expr  go to state 85
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 71
+
+   65 div_mul_expr: div_mul_expr op3 . unary_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable        go to state 52
+    name            go to state 33
+    value           go to state 34
+    unary_expr      go to state 86
+    term            go to state 42
+    function_calls  go to state 43
+    op2             go to state 44
+
+
+State 72
+
+   67 unary_expr: op2 term .
+
+    $default  reduce using rule 67 (unary_expr)
+
+
+State 73
+
+   25 main_function: data_type_func MAIN LB RB LCB . statements RCB
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 100
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 74
+
+   13 func_declaration: data_type_func name LB arguments_list RB . LCB statements RCB
+
+    LCB  shift, and go to state 113
+
+
+State 75
+
+   15 arguments_list: argument COMMA . arguments_list
+
+    INT    shift, and go to state 47
+    FLOAT  shift, and go to state 48
+
+    arguments_list  go to state 114
+    argument        go to state 50
+    data_type_var   go to state 51
+
+
+State 76
+
+   16 argument: data_type_var name .
+
+    $default  reduce using rule 16 (argument)
+
+
+State 77
+
+   69 term: LB conditions RB .
+
+    $default  reduce using rule 69 (term)
+
+
+State 78
+
+   55 conditions: variable EQ conditions .
+
+    $default  reduce using rule 55 (conditions)
+
+
+State 79
+
+   75 fc_argument_list: arithmetic_expr . COMMA fc_argument_list
+   76                 | arithmetic_expr .
+
+    COMMA  shift, and go to state 115
+
+    $default  reduce using rule 76 (fc_argument_list)
+
+
+State 80
+
+   74 function_calls: name LB fc_argument_list . RB
+
+    RB  shift, and go to state 116
+
+
+State 81
+
+   12 variable: name ASSIGN conditions COMMA variable .
+
+    $default  reduce using rule 12 (variable)
+
+
+State 82
+
+   57 logical_expr: logical_expr OR and_expr .
+
+    $default  reduce using rule 57 (logical_expr)
+
+
+State 83
+
+   59 and_expr: relation_expr AND and_expr .
+
+    $default  reduce using rule 59 (and_expr)
+
+
+State 84
+
+   61 relation_expr: arithmetic_expr op1 relation_expr .
+
+    $default  reduce using rule 61 (relation_expr)
+
+
+State 85
+
+   63 arithmetic_expr: div_mul_expr op2 arithmetic_expr .
+
+    $default  reduce using rule 63 (arithmetic_expr)
+
+
+State 86
+
+   65 div_mul_expr: div_mul_expr op3 unary_expr .
+
+    $default  reduce using rule 65 (div_mul_expr)
+
+
+State 87
+
+   38 expression: LCB . expression RCB
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    expression            go to state 117
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 88
+
+   51 for_expr: FOR . LB assignment_expr SEMI conditions SEMI assignment_expr RB LCB statements RCB
+
+    LB  shift, and go to state 118
+
+
+State 89
+
+   52 while_expr: WHILE . LB conditions RB LCB statements RCB
+
+    LB  shift, and go to state 119
+
+
+State 90
+
+   43 if_expr: IF . LB conditions RB LCB statements RCB
+   44        | IF . LB conditions RB LCB statements RCB ELSE LCB statements RCB
+
+    LB  shift, and go to state 120
+
+
+State 91
+
+   45 switch_expr: SWITCH . LB name RB LCB switch_cases RCB
+
+    LB  shift, and go to state 121
+
+
+State 92
+
+   89 return_expr: RETURN . SEMI
+   90            | RETURN . value SEMI
+
+    SEMI     shift, and go to state 122
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+
+    value  go to state 123
+
+
+State 93
+
+   39 read_input: GET . LB name RB SEMI
+
+    LB  shift, and go to state 124
+
+
+State 94
+
+   40 print_output: PUT . LB name RB SEMI
+
+    LB  shift, and go to state 125
+
+
+State 95
+
+   36 expression: BREAK . SEMI
+
+    SEMI  shift, and go to state 126
+
+
+State 96
+
+   37 expression: CONTINUE . SEMI
+
+    SEMI  shift, and go to state 127
+
+
+State 97
+
+   28 expression: variable_declaration .
+
+    $default  reduce using rule 28 (expression)
+
+
+State 98
+
+    8 variable_declaration: data_type_var . variable SEMI
+   54 assignment_expr: data_type_var . name ASSIGN arithmetic_expr
+
+    ID  shift, and go to state 16
+
+    variable  go to state 17
+    name      go to state 128
+
+
+State 99
+
+    9 variable: name .
+   10         | name . COMMA variable
+   11         | name . ASSIGN conditions
+   12         | name . ASSIGN conditions COMMA variable
+   53 assignment_expr: name . ASSIGN arithmetic_expr
+   74 function_calls: name . LB fc_argument_list RB
+
+    ASSIGN  shift, and go to state 129
+    COMMA   shift, and go to state 23
+    LB      shift, and go to state 56
+
+    $default  reduce using rule 9 (variable)
+
+
+State 100
+
+   25 main_function: data_type_func MAIN LB RB LCB statements . RCB
+
+    RCB  shift, and go to state 130
+
+
+State 101
+
+   26 statements: expression . statements
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 131
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 102
+
+   29 expression: read_input .
+
+    $default  reduce using rule 29 (expression)
+
+
+State 103
+
+   30 expression: print_output .
+
+    $default  reduce using rule 30 (expression)
+
+
+State 104
+
+   31 expression: conditional_expr .
+
+    $default  reduce using rule 31 (expression)
+
+
+State 105
+
+   41 conditional_expr: if_expr .
+
+    $default  reduce using rule 41 (conditional_expr)
+
+
+State 106
+
+   42 conditional_expr: switch_expr .
+
+    $default  reduce using rule 42 (conditional_expr)
+
+
+State 107
+
+   33 expression: looping_expr .
+
+    $default  reduce using rule 33 (expression)
+
+
+State 108
+
+   49 looping_expr: for_expr .
+
+    $default  reduce using rule 49 (looping_expr)
+
+
+State 109
+
+   50 looping_expr: while_expr .
+
+    $default  reduce using rule 50 (looping_expr)
+
+
+State 110
+
+   32 expression: assignment_expr . SEMI
+
+    SEMI  shift, and go to state 132
+
+
+State 111
+
+   35 expression: conditions . SEMI
+
+    SEMI  shift, and go to state 133
+
+
+State 112
+
+   34 expression: return_expr .
+
+    $default  reduce using rule 34 (expression)
+
+
+State 113
+
+   13 func_declaration: data_type_func name LB arguments_list RB LCB . statements RCB
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 134
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 114
+
+   15 arguments_list: argument COMMA arguments_list .
+
+    $default  reduce using rule 15 (arguments_list)
+
+
+State 115
+
+   75 fc_argument_list: arithmetic_expr COMMA . fc_argument_list
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    $default  reduce using rule 77 (fc_argument_list)
+
+    variable          go to state 52
+    name              go to state 33
+    value             go to state 34
+    arithmetic_expr   go to state 79
+    div_mul_expr      go to state 40
+    unary_expr        go to state 41
+    term              go to state 42
+    function_calls    go to state 43
+    fc_argument_list  go to state 135
+    op2               go to state 44
+
+
+State 116
+
+   74 function_calls: name LB fc_argument_list RB .
+
+    $default  reduce using rule 74 (function_calls)
+
+
+State 117
+
+   38 expression: LCB expression . RCB
+
+    RCB  shift, and go to state 136
+
+
+State 118
+
+   51 for_expr: FOR LB . assignment_expr SEMI conditions SEMI assignment_expr RB LCB statements RCB
+
+    INT    shift, and go to state 47
+    FLOAT  shift, and go to state 48
+    ID     shift, and go to state 16
+
+    data_type_var    go to state 137
+    name             go to state 138
+    assignment_expr  go to state 139
+
+
+State 119
+
+   52 while_expr: WHILE LB . conditions RB LCB statements RCB
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 140
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 120
+
+   43 if_expr: IF LB . conditions RB LCB statements RCB
+   44        | IF LB . conditions RB LCB statements RCB ELSE LCB statements RCB
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 141
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 121
+
+   45 switch_expr: SWITCH LB . name RB LCB switch_cases RCB
+
+    ID  shift, and go to state 16
+
+    name  go to state 142
+
+
+State 122
+
+   89 return_expr: RETURN SEMI .
+
+    $default  reduce using rule 89 (return_expr)
+
+
+State 123
+
+   90 return_expr: RETURN value . SEMI
+
+    SEMI  shift, and go to state 143
+
+
+State 124
+
+   39 read_input: GET LB . name RB SEMI
+
+    ID  shift, and go to state 16
+
+    name  go to state 144
+
+
+State 125
+
+   40 print_output: PUT LB . name RB SEMI
+
+    ID  shift, and go to state 16
+
+    name  go to state 145
+
+
+State 126
+
+   36 expression: BREAK SEMI .
+
+    $default  reduce using rule 36 (expression)
+
+
+State 127
+
+   37 expression: CONTINUE SEMI .
+
+    $default  reduce using rule 37 (expression)
+
+
+State 128
+
+    9 variable: name .
+   10         | name . COMMA variable
+   11         | name . ASSIGN conditions
+   12         | name . ASSIGN conditions COMMA variable
+   54 assignment_expr: data_type_var name . ASSIGN arithmetic_expr
+
+    ASSIGN  shift, and go to state 146
+    COMMA   shift, and go to state 23
+
+    $default  reduce using rule 9 (variable)
+
+
+State 129
+
+   11 variable: name ASSIGN . conditions
+   12         | name ASSIGN . conditions COMMA variable
+   53 assignment_expr: name ASSIGN . arithmetic_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 35
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 147
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 130
+
+   25 main_function: data_type_func MAIN LB RB LCB statements RCB .
+
+    $default  reduce using rule 25 (main_function)
+
+
+State 131
+
+   26 statements: expression statements .
+
+    $default  reduce using rule 26 (statements)
+
+
+State 132
+
+   32 expression: assignment_expr SEMI .
+
+    $default  reduce using rule 32 (expression)
+
+
+State 133
+
+   35 expression: conditions SEMI .
+
+    $default  reduce using rule 35 (expression)
+
+
+State 134
+
+   13 func_declaration: data_type_func name LB arguments_list RB LCB statements . RCB
+
+    RCB  shift, and go to state 148
+
+
+State 135
+
+   75 fc_argument_list: arithmetic_expr COMMA fc_argument_list .
+
+    $default  reduce using rule 75 (fc_argument_list)
+
+
+State 136
+
+   38 expression: LCB expression RCB .
+
+    $default  reduce using rule 38 (expression)
+
+
+State 137
+
+   54 assignment_expr: data_type_var . name ASSIGN arithmetic_expr
+
+    ID  shift, and go to state 16
+
+    name  go to state 149
+
+
+State 138
+
+   53 assignment_expr: name . ASSIGN arithmetic_expr
+
+    ASSIGN  shift, and go to state 150
+
+
+State 139
+
+   51 for_expr: FOR LB assignment_expr . SEMI conditions SEMI assignment_expr RB LCB statements RCB
+
+    SEMI  shift, and go to state 151
+
+
+State 140
+
+   52 while_expr: WHILE LB conditions . RB LCB statements RCB
+
+    RB  shift, and go to state 152
+
+
+State 141
+
+   43 if_expr: IF LB conditions . RB LCB statements RCB
+   44        | IF LB conditions . RB LCB statements RCB ELSE LCB statements RCB
+
+    RB  shift, and go to state 153
+
+
+State 142
+
+   45 switch_expr: SWITCH LB name . RB LCB switch_cases RCB
+
+    RB  shift, and go to state 154
+
+
+State 143
+
+   90 return_expr: RETURN value SEMI .
+
+    $default  reduce using rule 90 (return_expr)
+
+
+State 144
+
+   39 read_input: GET LB name . RB SEMI
+
+    RB  shift, and go to state 155
+
+
+State 145
+
+   40 print_output: PUT LB name . RB SEMI
+
+    RB  shift, and go to state 156
+
+
+State 146
+
+   11 variable: name ASSIGN . conditions
+   12         | name ASSIGN . conditions COMMA variable
+   54 assignment_expr: data_type_var name ASSIGN . arithmetic_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 35
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 157
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 147
+
+   53 assignment_expr: name ASSIGN arithmetic_expr .
+   61 relation_expr: arithmetic_expr . op1 relation_expr
+   62              | arithmetic_expr .
+
+    LT    shift, and go to state 60
+    GT    shift, and go to state 61
+    LTEQ  shift, and go to state 62
+    GTEQ  shift, and go to state 63
+    EQ    shift, and go to state 64
+    NEQ   shift, and go to state 65
+
+    LT        [reduce using rule 62 (relation_expr)]
+    GT        [reduce using rule 62 (relation_expr)]
+    LTEQ      [reduce using rule 62 (relation_expr)]
+    GTEQ      [reduce using rule 62 (relation_expr)]
+    EQ        [reduce using rule 62 (relation_expr)]
+    NEQ       [reduce using rule 62 (relation_expr)]
+    SEMI      reduce using rule 53 (assignment_expr)
+    SEMI      [reduce using rule 62 (relation_expr)]
+    $default  reduce using rule 62 (relation_expr)
+
+    op1  go to state 66
+
+
+State 148
+
+   13 func_declaration: data_type_func name LB arguments_list RB LCB statements RCB .
+
+    $default  reduce using rule 13 (func_declaration)
+
+
+State 149
+
+   54 assignment_expr: data_type_var name . ASSIGN arithmetic_expr
+
+    ASSIGN  shift, and go to state 158
+
+
+State 150
+
+   53 assignment_expr: name ASSIGN . arithmetic_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 52
+    name             go to state 33
+    value            go to state 34
+    arithmetic_expr  go to state 159
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 151
+
+   51 for_expr: FOR LB assignment_expr SEMI . conditions SEMI assignment_expr RB LCB statements RCB
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 32
+    name             go to state 33
+    value            go to state 34
+    conditions       go to state 160
+    logical_expr     go to state 36
+    and_expr         go to state 37
+    relation_expr    go to state 38
+    arithmetic_expr  go to state 39
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 152
+
+   52 while_expr: WHILE LB conditions RB . LCB statements RCB
+
+    LCB  shift, and go to state 161
+
+
+State 153
+
+   43 if_expr: IF LB conditions RB . LCB statements RCB
+   44        | IF LB conditions RB . LCB statements RCB ELSE LCB statements RCB
+
+    LCB  shift, and go to state 162
+
+
+State 154
+
+   45 switch_expr: SWITCH LB name RB . LCB switch_cases RCB
+
+    LCB  shift, and go to state 163
+
+
+State 155
+
+   39 read_input: GET LB name RB . SEMI
+
+    SEMI  shift, and go to state 164
+
+
+State 156
+
+   40 print_output: PUT LB name RB . SEMI
+
+    SEMI  shift, and go to state 165
+
+
+State 157
+
+   54 assignment_expr: data_type_var name ASSIGN arithmetic_expr .
+   61 relation_expr: arithmetic_expr . op1 relation_expr
+   62              | arithmetic_expr .
+
+    LT    shift, and go to state 60
+    GT    shift, and go to state 61
+    LTEQ  shift, and go to state 62
+    GTEQ  shift, and go to state 63
+    EQ    shift, and go to state 64
+    NEQ   shift, and go to state 65
+
+    SEMI      reduce using rule 54 (assignment_expr)
+    SEMI      [reduce using rule 62 (relation_expr)]
+    $default  reduce using rule 62 (relation_expr)
+
+    op1  go to state 66
+
+
+State 158
+
+   54 assignment_expr: data_type_var name ASSIGN . arithmetic_expr
+
+    NOT      shift, and go to state 26
+    PLUS     shift, and go to state 27
+    MINUS    shift, and go to state 28
+    LB       shift, and go to state 29
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+    ID       shift, and go to state 16
+
+    variable         go to state 52
+    name             go to state 33
+    value            go to state 34
+    arithmetic_expr  go to state 166
+    div_mul_expr     go to state 40
+    unary_expr       go to state 41
+    term             go to state 42
+    function_calls   go to state 43
+    op2              go to state 44
+
+
+State 159
+
+   53 assignment_expr: name ASSIGN arithmetic_expr .
+
+    $default  reduce using rule 53 (assignment_expr)
+
+
+State 160
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions . SEMI assignment_expr RB LCB statements RCB
+
+    SEMI  shift, and go to state 167
+
+
+State 161
+
+   52 while_expr: WHILE LB conditions RB LCB . statements RCB
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 168
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 162
+
+   43 if_expr: IF LB conditions RB LCB . statements RCB
+   44        | IF LB conditions RB LCB . statements RCB ELSE LCB statements RCB
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 169
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 163
+
+   45 switch_expr: SWITCH LB name RB LCB . switch_cases RCB
+
+    CASE     shift, and go to state 170
+    DEFAULT  shift, and go to state 171
+
+    switch_cases  go to state 172
+
+
+State 164
+
+   39 read_input: GET LB name RB SEMI .
+
+    $default  reduce using rule 39 (read_input)
+
+
+State 165
+
+   40 print_output: PUT LB name RB SEMI .
+
+    $default  reduce using rule 40 (print_output)
+
+
+State 166
+
+   54 assignment_expr: data_type_var name ASSIGN arithmetic_expr .
+
+    $default  reduce using rule 54 (assignment_expr)
+
+
+State 167
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions SEMI . assignment_expr RB LCB statements RCB
+
+    INT    shift, and go to state 47
+    FLOAT  shift, and go to state 48
+    ID     shift, and go to state 16
+
+    data_type_var    go to state 137
+    name             go to state 138
+    assignment_expr  go to state 173
+
+
+State 168
+
+   52 while_expr: WHILE LB conditions RB LCB statements . RCB
+
+    RCB  shift, and go to state 174
+
+
+State 169
+
+   43 if_expr: IF LB conditions RB LCB statements . RCB
+   44        | IF LB conditions RB LCB statements . RCB ELSE LCB statements RCB
+
+    RCB  shift, and go to state 175
+
+
+State 170
+
+   46 switch_cases: CASE . value COLON statements switch_cases
+   47             | CASE . value COLON statements
+
+    NUM_INT  shift, and go to state 30
+    NUM_FP   shift, and go to state 31
+
+    value  go to state 176
+
+
+State 171
+
+   48 switch_cases: DEFAULT . COLON statements
+
+    COLON  shift, and go to state 177
+
+
+State 172
+
+   45 switch_expr: SWITCH LB name RB LCB switch_cases . RCB
+
+    RCB  shift, and go to state 178
+
+
+State 173
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions SEMI assignment_expr . RB LCB statements RCB
+
+    RB  shift, and go to state 179
+
+
+State 174
+
+   52 while_expr: WHILE LB conditions RB LCB statements RCB .
+
+    $default  reduce using rule 52 (while_expr)
+
+
+State 175
+
+   43 if_expr: IF LB conditions RB LCB statements RCB .
+   44        | IF LB conditions RB LCB statements RCB . ELSE LCB statements RCB
+
+    ELSE  shift, and go to state 180
+
+    $default  reduce using rule 43 (if_expr)
+
+
+State 176
+
+   46 switch_cases: CASE value . COLON statements switch_cases
+   47             | CASE value . COLON statements
+
+    COLON  shift, and go to state 181
+
+
+State 177
+
+   48 switch_cases: DEFAULT COLON . statements
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 182
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 178
+
+   45 switch_expr: SWITCH LB name RB LCB switch_cases RCB .
+
+    $default  reduce using rule 45 (switch_expr)
+
+
+State 179
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions SEMI assignment_expr RB . LCB statements RCB
+
+    LCB  shift, and go to state 183
+
+
+State 180
+
+   44 if_expr: IF LB conditions RB LCB statements RCB ELSE . LCB statements RCB
+
+    LCB  shift, and go to state 184
+
+
+State 181
+
+   46 switch_cases: CASE value COLON . statements switch_cases
+   47             | CASE value COLON . statements
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 185
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 182
+
+   48 switch_cases: DEFAULT COLON statements .
+
+    $default  reduce using rule 48 (switch_cases)
+
+
+State 183
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions SEMI assignment_expr RB LCB . statements RCB
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 186
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 184
+
+   44 if_expr: IF LB conditions RB LCB statements RCB ELSE LCB . statements RCB
+
+    INT       shift, and go to state 47
+    FLOAT     shift, and go to state 48
+    NOT       shift, and go to state 26
+    PLUS      shift, and go to state 27
+    MINUS     shift, and go to state 28
+    LB        shift, and go to state 29
+    LCB       shift, and go to state 87
+    NUM_INT   shift, and go to state 30
+    NUM_FP    shift, and go to state 31
+    ID        shift, and go to state 16
+    FOR       shift, and go to state 88
+    WHILE     shift, and go to state 89
+    IF        shift, and go to state 90
+    SWITCH    shift, and go to state 91
+    RETURN    shift, and go to state 92
+    GET       shift, and go to state 93
+    PUT       shift, and go to state 94
+    BREAK     shift, and go to state 95
+    CONTINUE  shift, and go to state 96
+
+    $default  reduce using rule 27 (statements)
+
+    variable_declaration  go to state 97
+    variable              go to state 32
+    data_type_var         go to state 98
+    name                  go to state 99
+    value                 go to state 34
+    statements            go to state 187
+    expression            go to state 101
+    read_input            go to state 102
+    print_output          go to state 103
+    conditional_expr      go to state 104
+    if_expr               go to state 105
+    switch_expr           go to state 106
+    looping_expr          go to state 107
+    for_expr              go to state 108
+    while_expr            go to state 109
+    assignment_expr       go to state 110
+    conditions            go to state 111
+    logical_expr          go to state 36
+    and_expr              go to state 37
+    relation_expr         go to state 38
+    arithmetic_expr       go to state 39
+    div_mul_expr          go to state 40
+    unary_expr            go to state 41
+    term                  go to state 42
+    function_calls        go to state 43
+    op2                   go to state 44
+    return_expr           go to state 112
+
+
+State 185
+
+   46 switch_cases: CASE value COLON statements . switch_cases
+   47             | CASE value COLON statements .
+
+    CASE     shift, and go to state 170
+    DEFAULT  shift, and go to state 171
+
+    $default  reduce using rule 47 (switch_cases)
+
+    switch_cases  go to state 188
+
+
+State 186
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions SEMI assignment_expr RB LCB statements . RCB
+
+    RCB  shift, and go to state 189
+
+
+State 187
+
+   44 if_expr: IF LB conditions RB LCB statements RCB ELSE LCB statements . RCB
+
+    RCB  shift, and go to state 190
+
+
+State 188
+
+   46 switch_cases: CASE value COLON statements switch_cases .
+
+    $default  reduce using rule 46 (switch_cases)
+
+
+State 189
+
+   51 for_expr: FOR LB assignment_expr SEMI conditions SEMI assignment_expr RB LCB statements RCB .
+
+    $default  reduce using rule 51 (for_expr)
+
+
+State 190
+
+   44 if_expr: IF LB conditions RB LCB statements RCB ELSE LCB statements RCB .
+
+    $default  reduce using rule 44 (if_expr)

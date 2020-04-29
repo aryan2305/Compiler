@@ -2,7 +2,7 @@
 
 int x;
 
-main()
+int main()
 {
     int n;
     get(n);

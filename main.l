@@ -103,7 +103,7 @@ DEFAULT         "default"
 {sp}{NUM_INT}{sp}				    {return NUM_INT;}
 {sp}{NUM_FP}{sp}				    {return NUM_FP;}
 {sp}{ID}{sp}				        {return ID;}
-nl				                    {yylineno++;}
+{nl}				                {yylineno++;}
 .				                    {lexical_analysis = false; cerr<<"Lexical Error: Token unrecognised at Line No. "<<yylineno<<" "<<yytext<<endl;}
 
 %%

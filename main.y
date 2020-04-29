@@ -18,7 +18,7 @@
 
 
 
-program : header_files global_declaration main_function
+program : header_files global_declaration_list main_function
         ;
 
 
@@ -26,9 +26,12 @@ header_files : HEADER header_files
              | 
              ;
 
-global_declaration : variable_declaration global_declaration
-                   | func_declaration global_declaration 
-                   |
+global_declaration_list : global_declaration_list global_declaration
+                        |
+                        ;
+
+global_declaration : variable_declaration
+                   | func_declaration 
                    ;
 
 variable_declaration : data_type_var variable SEMI
