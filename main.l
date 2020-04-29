@@ -13,9 +13,9 @@
 NUM_INT 		([-]*[0-9]+)
 NUM_FP			([-]*[0-9]+\.[0-9]+)
 ID		        ([A-Za-z_]([A-Za-z0-9_])*)
-ID_NOT_MAIN     (^main)
+ID_NOT_MAIN     (^[main])
 nl 			    [\n]
-sp              [ \t]*
+sp              [ \n\t]*
 
 INT             "int"
 FLOAT           "float"

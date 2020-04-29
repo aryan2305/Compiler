@@ -26,30 +26,31 @@ header_files : HEADER header_files
              | 
              ;
 
-global_declaration_list : global_declaration_list global_declaration
+global_declaration_list : global_declaration_list global_declaration    
                         |
                         ;
 
-global_declaration : variable_declaration
-                   | func_declaration 
+global_declaration : variable_declaration       
+                   | func_declaration           {cout<<"fc"<<endl;}
                    ;
 
-variable_declaration : data_type_var variable SEMI
+variable_declaration : data_type_var variable_list SEMI
                      ;
+variable_list : variable_list COMMA variable | variable;
 
 variable : name
-         | name COMMA variable
-         | name ASSIGN conditions
-         | name ASSIGN conditions COMMA variable
+         | name ASSIGN arithmetic_expr
          ;
 
-func_declaration : data_type_func ID_NOT_MAIN LB arguments_list RB LCB statements RCB
+func_declaration : data_type_func ID_NOT_MAIN LB arguments_list RB LCB statements RCB   {cout<<$2<<endl;}
 
 arguments_list : argument
                | argument COMMA arguments_list
                ;
 
-argument : data_type_var name ;
+argument : data_type_var name
+         |
+         ;
 
 data_type_var : INT | FLOAT ;
 
@@ -61,15 +62,15 @@ value : NUM_FP | NUM_INT ;
 
 main_function : data_type_func MAIN LB RB LCB statements RCB
 
-statements : expression statements
+statements : expression statements      
             | 
             ;
 
 expression : variable_declaration
            | read_input
            | print_output
-           | conditional_expr
-           | assignment_expr SEMI
+           | conditional_expr   
+        //    | assignment_expr SEMI       
            | looping_expr
            | return_expr
            | conditions SEMI
@@ -80,17 +81,19 @@ expression : variable_declaration
 
 read_input : GET LB name RB SEMI ;
 
-print_output : PUT LB name RB SEMI ; 
+print_output : PUT LB name RB SEMI 
+             | PUT LB value RB SEMI
+             ;    
 
-conditional_expr : if_expr
+conditional_expr : if_expr      
                  | switch_expr
                  ;
 
-if_expr : IF LB conditions RB LCB statements RCB
+if_expr : IF LB conditions RB LCB statements RCB                        {cout<<yylineno<<endl;}
         | IF LB conditions RB LCB statements RCB ELSE LCB statements RCB
         ;
 
-switch_expr : SWITCH LB name RB LCB switch_cases RCB
+switch_expr : SWITCH LB name RB LCB switch_cases RCB    {cout<<yylineno<<endl;}
             ;
 
 switch_cases : CASE value COLON statements switch_cases
@@ -104,15 +107,16 @@ looping_expr : for_expr
              | while_expr
              ;
 
-for_expr : FOR LB assignment_expr SEMI conditions SEMI assignment_expr RB LCB statements RCB
+for_expr : FOR LB variable_list SEMI conditions SEMI variable_list RB LCB statements RCB    {cout<<"FOR"<<endl;}
          ;
 
-while_expr : WHILE LB conditions RB LCB statements RCB
+while_expr : WHILE LB conditions RB LCB statements RCB  {cout<<"WHILE"<<endl;}
            ;
 
-assignment_expr : name ASSIGN arithmetic_expr
-                | data_type_var name ASSIGN arithmetic_expr
-                ;
+// assignment_expr : name ASSIGN arithmetic_expr
+//                 | data_type_var name ASSIGN arithmetic_expr
+//                 |
+//                 ;
 
 conditions : variable EQ conditions
            | logical_expr
