@@ -12,7 +12,7 @@
 %}
 
 %token INT FLOAT VOID LT GT LTEQ GTEQ EQ NEQ AND OR NOT ASSIGN PLUS MINUS DIVIDE MULT MOD SEMI COLON COMMA LB RB LCB RCB
-%token NUM_INT NUM_FP ID HEADER MAIN FOR WHILE IF ELSE SWITCH CASE RETURN GET PUT BREAK CONTINUE DEFAULT
+%token NUM_INT NUM_FP ID HEADER MAIN FOR WHILE IF ELSE SWITCH CASE RETURN GET PUT BREAK CONTINUE DEFAULT ID_NOT_MAIN
 
 %%
 
@@ -43,7 +43,7 @@ variable : name
          | name ASSIGN conditions COMMA variable
          ;
 
-func_declaration : data_type_func name LB arguments_list RB LCB statements RCB
+func_declaration : data_type_func ID_NOT_MAIN LB arguments_list RB LCB statements RCB
 
 arguments_list : argument
                | argument COMMA arguments_list

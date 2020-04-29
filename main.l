@@ -13,6 +13,7 @@
 NUM_INT 		([-]*[0-9]+)
 NUM_FP			([-]*[0-9]+\.[0-9]+)
 ID		        ([A-Za-z_]([A-Za-z0-9_])*)
+ID_NOT_MAIN     (^main)
 nl 			    [\n]
 sp              [ \t]*
 
@@ -103,6 +104,7 @@ DEFAULT         "default"
 {sp}{NUM_INT}{sp}				    {return NUM_INT;}
 {sp}{NUM_FP}{sp}				    {return NUM_FP;}
 {sp}{ID}{sp}				        {return ID;}
+{sp}{ID_NOT_MAIN}{sp}               {return ID_NOT_MAIN;}
 {nl}				                {yylineno++;}
 .				                    {lexical_analysis = false; cerr<<"Lexical Error: Token unrecognised at Line No. "<<yylineno<<" "<<yytext<<endl;}
 

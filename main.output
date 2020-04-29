@@ -1,5 +1,3 @@
-State 7 conflicts: 1 reduce/reduce
-State 8 conflicts: 1 reduce/reduce
 State 18 conflicts: 1 shift/reduce
 State 32 conflicts: 1 shift/reduce
 State 33 conflicts: 1 shift/reduce
@@ -34,7 +32,7 @@ Grammar
    11         | name ASSIGN conditions
    12         | name ASSIGN conditions COMMA variable
 
-   13 func_declaration: data_type_func name LB arguments_list RB LCB statements RCB
+   13 func_declaration: data_type_func ID_NOT_MAIN LB arguments_list RB LCB statements RCB
 
    14 arguments_list: argument
    15               | argument COMMA arguments_list
@@ -149,136 +147,177 @@ Grammar
 
 Terminals, with rules where they appear
 
-$end (0) 0
-error (256)
-INT (258) 17 19
-FLOAT (259) 18 20
-VOID (260) 21
-LT (261) 78
-GT (262) 79
-LTEQ (263) 80
-GTEQ (264) 81
-EQ (265) 55 82
-NEQ (266) 83
-AND (267) 59
-OR (268) 57
-NOT (269) 70
-ASSIGN (270) 11 12 53 54
-PLUS (271) 84
-MINUS (272) 85
-DIVIDE (273) 87
-MULT (274) 86
-MOD (275) 88
-SEMI (276) 8 32 35 36 37 39 40 51 89 90
-COLON (277) 46 47 48
-COMMA (278) 10 12 15 75
-LB (279) 13 25 39 40 43 44 45 51 52 69 74
-RB (280) 13 25 39 40 43 44 45 51 52 69 74
-LCB (281) 13 25 38 43 44 45 51 52
-RCB (282) 13 25 38 43 44 45 51 52
-NUM_INT (283) 24
-NUM_FP (284) 23
-ID (285) 22
-HEADER (286) 2
-MAIN (287) 25
-FOR (288) 51
-WHILE (289) 52
-IF (290) 43 44
-ELSE (291) 44
-SWITCH (292) 45
-CASE (293) 46 47
-RETURN (294) 89 90
-GET (295) 39
-PUT (296) 40
-BREAK (297) 36
-CONTINUE (298) 37
-DEFAULT (299) 48
+    $end (0) 0
+    error (256)
+    INT (258) 17 19
+    FLOAT (259) 18 20
+    VOID (260) 21
+    LT (261) 78
+    GT (262) 79
+    LTEQ (263) 80
+    GTEQ (264) 81
+    EQ (265) 55 82
+    NEQ (266) 83
+    AND (267) 59
+    OR (268) 57
+    NOT (269) 70
+    ASSIGN (270) 11 12 53 54
+    PLUS (271) 84
+    MINUS (272) 85
+    DIVIDE (273) 87
+    MULT (274) 86
+    MOD (275) 88
+    SEMI (276) 8 32 35 36 37 39 40 51 89 90
+    COLON (277) 46 47 48
+    COMMA (278) 10 12 15 75
+    LB (279) 13 25 39 40 43 44 45 51 52 69 74
+    RB (280) 13 25 39 40 43 44 45 51 52 69 74
+    LCB (281) 13 25 38 43 44 45 51 52
+    RCB (282) 13 25 38 43 44 45 51 52
+    NUM_INT (283) 24
+    NUM_FP (284) 23
+    ID (285) 22
+    HEADER (286) 2
+    MAIN (287) 25
+    FOR (288) 51
+    WHILE (289) 52
+    IF (290) 43 44
+    ELSE (291) 44
+    SWITCH (292) 45
+    CASE (293) 46 47
+    RETURN (294) 89 90
+    GET (295) 39
+    PUT (296) 40
+    BREAK (297) 36
+    CONTINUE (298) 37
+    DEFAULT (299) 48
+    ID_NOT_MAIN (300) 13
 
 
 Nonterminals, with rules where they appear
 
-$accept (45)
-    on left: 0
-program (46)
-    on left: 1, on right: 0
-header_files (47)
-    on left: 2 3, on right: 1 2
-global_declaration_list (48)
-    on left: 4 5, on right: 1 4
-global_declaration (49)
-    on left: 6 7, on right: 4
-variable_declaration (50)
-    on left: 8, on right: 6 28
-variable (51)
-    on left: 9 10 11 12, on right: 8 10 12 55 71
-func_declaration (52)
-    on left: 13, on right: 7
-arguments_list (53)
-    on left: 14 15, on right: 13 15
-argument (54)
-    on left: 16, on right: 14 15
-data_type_var (55)
-    on left: 17 18, on right: 8 16 54
-data_type_func (56)
-    on left: 19 20 21, on right: 13 25
-name (57)
-    on left: 22, on right: 9 10 11 12 13 16 39 40 45 53 54 74
-value (58)
-    on left: 23 24, on right: 46 47 72 90
-main_function (59)
-    on left: 25, on right: 1
-statements (60)
-    on left: 26 27, on right: 13 25 26 43 44 46 47 48 51 52
-expression (61)
-    on left: 28 29 30 31 32 33 34 35 36 37 38, on right: 26 38
-read_input (62)
-    on left: 39, on right: 29
-print_output (63)
-    on left: 40, on right: 30
-conditional_expr (64)
-    on left: 41 42, on right: 31
-if_expr (65)
-    on left: 43 44, on right: 41
-switch_expr (66)
-    on left: 45, on right: 42
-switch_cases (67)
-    on left: 46 47 48, on right: 45 46
-looping_expr (68)
-    on left: 49 50, on right: 33
-for_expr (69)
-    on left: 51, on right: 49
-while_expr (70)
-    on left: 52, on right: 50
-assignment_expr (71)
-    on left: 53 54, on right: 32 51
-conditions (72)
-    on left: 55 56, on right: 11 12 35 43 44 51 52 55 69
-logical_expr (73)
-    on left: 57 58, on right: 56 57
-and_expr (74)
-    on left: 59 60, on right: 57 58 59
-relation_expr (75)
-    on left: 61 62, on right: 59 60 61
-arithmetic_expr (76)
-    on left: 63 64, on right: 53 54 61 62 63 75 76
-div_mul_expr (77)
-    on left: 65 66, on right: 63 64 65
-unary_expr (78)
-    on left: 67 68, on right: 65 66
-term (79)
-    on left: 69 70 71 72 73, on right: 67 68 70
-function_calls (80)
-    on left: 74, on right: 73
-fc_argument_list (81)
-    on left: 75 76 77, on right: 74 75
-op1 (82)
-    on left: 78 79 80 81 82 83, on right: 61
-op2 (83)
-    on left: 84 85, on right: 63 67
-op3 (84)
-    on left: 86 87 88, on right: 65
-return_expr (85)
-    on left: 89 90, on right: 34
+    $accept (46)
+        on left: 0
+    program (47)
+        on left: 1
+        on right: 0
+    header_files (48)
+        on left: 2 3
+        on right: 1 2
+    global_declaration_list (49)
+        on left: 4 5
+        on right: 1 4
+    global_declaration (50)
+        on left: 6 7
+        on right: 4
+    variable_declaration (51)
+        on left: 8
+        on right: 6 28
+    variable (52)
+        on left: 9 10 11 12
+        on right: 8 10 12 55 71
+    func_declaration (53)
+        on left: 13
+        on right: 7
+    arguments_list (54)
+        on left: 14 15
+        on right: 13 15
+    argument (55)
+        on left: 16
+        on right: 14 15
+    data_type_var (56)
+        on left: 17 18
+        on right: 8 16 54
+    data_type_func (57)
+        on left: 19 20 21
+        on right: 13 25
+    name (58)
+        on left: 22
+        on right: 9 10 11 12 16 39 40 45 53 54 74
+    value (59)
+        on left: 23 24
+        on right: 46 47 72 90
+    main_function (60)
+        on left: 25
+        on right: 1
+    statements (61)
+        on left: 26 27
+        on right: 13 25 26 43 44 46 47 48 51 52
+    expression (62)
+        on left: 28 29 30 31 32 33 34 35 36 37 38
+        on right: 26 38
+    read_input (63)
+        on left: 39
+        on right: 29
+    print_output (64)
+        on left: 40
+        on right: 30
+    conditional_expr (65)
+        on left: 41 42
+        on right: 31
+    if_expr (66)
+        on left: 43 44
+        on right: 41
+    switch_expr (67)
+        on left: 45
+        on right: 42
+    switch_cases (68)
+        on left: 46 47 48
+        on right: 45 46
+    looping_expr (69)
+        on left: 49 50
+        on right: 33
+    for_expr (70)
+        on left: 51
+        on right: 49
+    while_expr (71)
+        on left: 52
+        on right: 50
+    assignment_expr (72)
+        on left: 53 54
+        on right: 32 51
+    conditions (73)
+        on left: 55 56
+        on right: 11 12 35 43 44 51 52 55 69
+    logical_expr (74)
+        on left: 57 58
+        on right: 56 57
+    and_expr (75)
+        on left: 59 60
+        on right: 57 58 59
+    relation_expr (76)
+        on left: 61 62
+        on right: 59 60 61
+    arithmetic_expr (77)
+        on left: 63 64
+        on right: 53 54 61 62 63 75 76
+    div_mul_expr (78)
+        on left: 65 66
+        on right: 63 64 65
+    unary_expr (79)
+        on left: 67 68
+        on right: 65 66
+    term (80)
+        on left: 69 70 71 72 73
+        on right: 67 68 70
+    function_calls (81)
+        on left: 74
+        on right: 73
+    fc_argument_list (82)
+        on left: 75 76 77
+        on right: 74 75
+    op1 (83)
+        on left: 78 79 80 81 82 83
+        on right: 61
+    op2 (84)
+        on left: 84 85
+        on right: 63 67
+    op3 (85)
+        on left: 86 87 88
+        on right: 65
+    return_expr (86)
+        on left: 89 90
+        on right: 34
 
 
 State 0
@@ -357,9 +396,7 @@ State 7
    19 data_type_func: INT .
 
     ID        reduce using rule 17 (data_type_var)
-    ID        [reduce using rule 19 (data_type_func)]
-    MAIN      reduce using rule 19 (data_type_func)
-    $default  reduce using rule 17 (data_type_var)
+    $default  reduce using rule 19 (data_type_func)
 
 
 State 8
@@ -368,9 +405,7 @@ State 8
    20 data_type_func: FLOAT .
 
     ID        reduce using rule 18 (data_type_var)
-    ID        [reduce using rule 20 (data_type_func)]
-    MAIN      reduce using rule 20 (data_type_func)
-    $default  reduce using rule 18 (data_type_var)
+    $default  reduce using rule 20 (data_type_func)
 
 
 State 9
@@ -413,13 +448,11 @@ State 13
 
 State 14
 
-   13 func_declaration: data_type_func . name LB arguments_list RB LCB statements RCB
+   13 func_declaration: data_type_func . ID_NOT_MAIN LB arguments_list RB LCB statements RCB
    25 main_function: data_type_func . MAIN LB RB LCB statements RCB
 
-    ID    shift, and go to state 16
-    MAIN  shift, and go to state 19
-
-    name  go to state 20
+    MAIN         shift, and go to state 19
+    ID_NOT_MAIN  shift, and go to state 20
 
 
 State 15
@@ -466,7 +499,7 @@ State 19
 
 State 20
 
-   13 func_declaration: data_type_func name . LB arguments_list RB LCB statements RCB
+   13 func_declaration: data_type_func ID_NOT_MAIN . LB arguments_list RB LCB statements RCB
 
     LB  shift, and go to state 25
 
@@ -525,7 +558,7 @@ State 24
 
 State 25
 
-   13 func_declaration: data_type_func name LB . arguments_list RB LCB statements RCB
+   13 func_declaration: data_type_func ID_NOT_MAIN LB . arguments_list RB LCB statements RCB
 
     INT    shift, and go to state 47
     FLOAT  shift, and go to state 48
@@ -795,7 +828,7 @@ State 48
 
 State 49
 
-   13 func_declaration: data_type_func name LB arguments_list . RB LCB statements RCB
+   13 func_declaration: data_type_func ID_NOT_MAIN LB arguments_list . RB LCB statements RCB
 
     RB  shift, and go to state 74
 
@@ -1148,7 +1181,7 @@ State 73
 
 State 74
 
-   13 func_declaration: data_type_func name LB arguments_list RB . LCB statements RCB
+   13 func_declaration: data_type_func ID_NOT_MAIN LB arguments_list RB . LCB statements RCB
 
     LCB  shift, and go to state 113
 
@@ -1541,7 +1574,7 @@ State 112
 
 State 113
 
-   13 func_declaration: data_type_func name LB arguments_list RB LCB . statements RCB
+   13 func_declaration: data_type_func ID_NOT_MAIN LB arguments_list RB LCB . statements RCB
 
     INT       shift, and go to state 47
     FLOAT     shift, and go to state 48
@@ -1837,7 +1870,7 @@ State 133
 
 State 134
 
-   13 func_declaration: data_type_func name LB arguments_list RB LCB statements . RCB
+   13 func_declaration: data_type_func ID_NOT_MAIN LB arguments_list RB LCB statements . RCB
 
     RCB  shift, and go to state 148
 
@@ -1979,7 +2012,7 @@ State 147
 
 State 148
 
-   13 func_declaration: data_type_func name LB arguments_list RB LCB statements RCB .
+   13 func_declaration: data_type_func ID_NOT_MAIN LB arguments_list RB LCB statements RCB .
 
     $default  reduce using rule 13 (func_declaration)
 
