@@ -1,6 +1,12 @@
 %{
     #include "main.tab.h"
+    #include<bits/stdc++.h>
+
+    using namespace std;
+    extern bool lexical_analysis;
 %}
+
+%option noyywrap
 
 NUM_INT 		([-]*[0-9]+)
 NUM_FP			([-]*[0-9]+\.[0-9]+)
@@ -34,7 +40,7 @@ RB              ")"
 LCB             "{"
 RCB             "}"
 
-HEADER          (\#[ \t]*include[ \n\t]*\<.+\>)|((\#[ \t]*include[ \t\n]*\".+\"))
+HEADER          (\#include[ \n\t]*\<.+\>)|((\#include[ \t\n]*\".+\"))
 MAIN            "main"
 
 FOR             "for"
@@ -44,8 +50,8 @@ ELSE            "else"
 SWITCH          "switch"
 CASE            "case"
 RETURN          "return"
-SCAN            "scan"
-PRINT           "print"
+GET             "get"
+PUT             "put"
 BREAK           "break"
 CONTINUE        "continue"
 DEFAULT         "default"
@@ -88,14 +94,14 @@ DEFAULT         "default"
 {sp}CASE{sp}				    {return CASE;}
 {sp}DEFAULT{sp}                 {return DEFAULT;}
 {sp}RETURN{sp}				    {return RETURN;}
-{sp}SCAN{sp}				    {return SCAN;}
-{sp}PRINT{sp}				    {return PRINT;}
+{sp}GET{sp}				        {return GET;}
+{sp}PUT{sp}				        {return PUT;}
 {sp}BREAK{sp}				    {return BREAK;}
 {sp}CONTINUE{sp}				{return CONTINUE;}
 {sp}NUM_INT{sp}				    {return NUM_INT;}
 {sp}NUM_FP{sp}				    {return NUM_FP;}
 {sp}ID{sp}				        {return ID;}
-nl				                {yylineno++; return NEWLINE;}
-.				                {return ER;}
+nl				                {yylineno++;}
+.				                {lexical_analysis = false; cerr<<"Lexical Error: Token unrecognised at Line No. "<<yylineno<<endl;}
 
 %%

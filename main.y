@@ -1,28 +1,36 @@
 %{
     #include<bits/stdc++.h>
 
+    using namespace std;
+
     extern int yyparse();
     extern int yylex();
     void yyerror(char* s);
     extern int yylineno;
+
+    
 %}
 
 %token INT FLOAT VOID LT GT LTEQ GTEQ EQ NEQ AND OR NOT ASSIGN PLUS MINUS DIVIDE MULT MOD SEMI COLON COMMA LB RB LCB RCB
-%token NUM_INT NUM_FP ID HEADER MAIN FOR WHILE IF ELSE SWITCH CASE RETURN SCAN PRINT BREAK CONTINUE DEFAULT
+%token NUM_INT NUM_FP ID HEADER MAIN FOR WHILE IF ELSE SWITCH CASE RETURN GET PUT BREAK CONTINUE DEFAULT
 
 %%
+
+
 
 program : header_files global_declaration main_function
         | header_files main_function
         ;
 
+
 header_files : HEADER header_files
              | 
              ;
 
-global_declaration : variable_declaration global_declaration
-                   | func_declaration global_declaration
-                   | 
+global_declaration : variable_declaration 
+                   | variable_declaration global_declaration
+                   | func_declaration
+                   | func_declaration global_declaration 
                    ;
 
 variable_declaration : data_type_var variable SEMI
@@ -60,6 +68,7 @@ expression : variable_declaration
            | read_input
            | print_output
            | conditional_expr
+           | assignment_expr SEMI
            | looping_expr
            | return_expr
            | conditions SEMI
@@ -68,9 +77,9 @@ expression : variable_declaration
            | LCB expression RCB
            ;
 
-read_input : SCAN LB name RB SEMI ;
+read_input : GET LB name RB SEMI ;
 
-print_output : PRINT LB name RB SEMI ; 
+print_output : PUT LB name RB SEMI ; 
 
 conditional_expr : if_expr
                  | switch_expr
@@ -94,11 +103,15 @@ looping_expr : for_expr
              | while_expr
              ;
 
-for_expr : FOR LB conditions SEMI conditions SEMI conditions RB LCB statements RCB
+for_expr : FOR LB assignment_expr SEMI conditions SEMI assignment_expr RB LCB statements RCB
          ;
 
 while_expr : WHILE LB conditions RB LCB statements RCB
            ;
+
+assignment_expr : name ASSIGN arithmetic_expr
+                | data_type_var name ASSIGN arithmetic_expr
+                ;
 
 conditions : variable EQ conditions
            | logical_expr
@@ -138,8 +151,8 @@ term : LB conditions RB
 function_calls : name LB fc_argument_list RB
                ;
 
-fc_argument_list : logical_expr COMMA list
-     | logical_expr
+fc_argument_list : arithmetic_expr COMMA fc_argument_list
+     | arithmetic_expr
      | 
      ;
 
@@ -169,13 +182,44 @@ return_expr : RETURN SEMI
 
 %%
 
-int main(int argc, char **argv)
-{
-  yyparse();
-}
+bool syntax_analysis = true;
+bool semantic_analysis = true;
+bool lexical_analysis = true;
 
 void yyerror(char *s)
 {      
 
-
+    cerr<<"Syntax Error at Line Number " << yylineno <<" : "<<s<<endl;
+	syntax_analysis = false;
+    
 }
+
+int main(int argc, char **argv)
+{
+    cout<<"---------------- FIRST PASS -------------------"<<endl<<endl;
+    cout<<"Step 1: Lexical Analysis and Syntax Analysis"<<endl<<endl;
+    
+    yyparse();
+    
+    if(lexical_analysis)
+    {
+        cout<<"Lexical Analysis Successful!!"<<endl<<endl;
+    }
+    else
+    {
+        cout<<"Lexical Analysis Failed.Remove unrecognised tokens."<<endl;
+        exit(1);
+    }
+
+    if(syntax_analysis)
+    {
+        cout<<"Syntax Analysis Successful!!"<<endl<<endl;
+    }
+    else
+    {
+        cout<<"Syntax Analysis Failed. Remove the syntax error."<<endl;
+        exit(1);
+    }
+    
+}
+
