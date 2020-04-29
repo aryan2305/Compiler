@@ -44,10 +44,11 @@ ELSE            "else"
 SWITCH          "switch"
 CASE            "case"
 RETURN          "return"
-GET             "get"
-PUT             "put"
+SCAN            "scan"
+PRINT           "print"
 BREAK           "break"
 CONTINUE        "continue"
+DEFAULT         "default"
 
 %%
 
@@ -85,9 +86,10 @@ CONTINUE        "continue"
 {sp}ELSE{sp}				    {return ELSE;}
 {sp}SWITCH{sp}				    {return SWITCH;}
 {sp}CASE{sp}				    {return CASE;}
+{sp}DEFAULT{sp}                 {return DEFAULT;}
 {sp}RETURN{sp}				    {return RETURN;}
-{sp}GET{sp}				        {return GET;}
-{sp}PUT{sp}				        {return PUT;}
+{sp}SCAN{sp}				    {return SCAN;}
+{sp}PRINT{sp}				    {return PRINT;}
 {sp}BREAK{sp}				    {return BREAK;}
 {sp}CONTINUE{sp}				{return CONTINUE;}
 {sp}NUM_INT{sp}				    {return NUM_INT;}
