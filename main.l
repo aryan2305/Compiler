@@ -1,11 +1,13 @@
 %{
-    #include "main.tab.h"
     #include<bits/stdc++.h>
+    #include "main.tab.h"
+    
 
     using namespace std;
     extern bool lexical_analysis;
 %}
 
+%option yylineno
 %option noyywrap
 
 NUM_INT 		([-]*[0-9]+)
@@ -58,50 +60,50 @@ DEFAULT         "default"
 
 %%
 
-{sp}INT{sp}				        {return INT;}
-{sp}FLOAT{sp}				    {return FLOAT;}		 	
-{sp}VOID{sp}		            {return VOID;}
-{sp}LT{sp}			            {return LT;}
-{sp}GT{sp}			            {return GT;}
-{sp}LTEQ{sp}			        {return LTEQ;}
-{sp}GTEQ{sp}			        {return GTEQ;}
-{sp}EQ{sp}			            {return EQ;}
-{sp}NEQ{sp}			            {return NEQ;}
-{sp}LB{sp}				        {return LB;}
-{sp}RB{sp}				        {return RB;}
-{sp}LCB{sp}				        {return LCB;}
-{sp}RCB{sp}				        {return RCB;}
-{sp}AND{sp}				        {return AND;}
-{sp}OR{sp}				        {return OR;}
-{sp}NOT{sp}				        {return NOT;}
-{sp}ASSIGN{sp}				    {return ASSIGN;}
-{sp}PLUS{sp}				    {return PLUS;}
-{sp}MINUS{sp}				    {return MINUS;}
-{sp}DIVIDE{sp}				    {return DIVIDE;}
-{sp}MULT{sp}				    {return MULT;}
-{sp}MOD{sp}				        {return MOD;}
-{sp}SEMI{sp}				    {return SEMI;}
-{sp}COLON{sp}				    {return COLON;}
-{sp}COMMA{sp}				    {return COMMA;}
+{sp}{INT}{sp}				        {return INT;}
+{sp}{FLOAT}{sp}				        {return FLOAT;}		 	
+{sp}{VOID}{sp}		                {return VOID;}
+{sp}{LT}{sp}			            {return LT;}
+{sp}{GT}{sp}			            {return GT;}
+{sp}{LTEQ}{sp}			            {return LTEQ;}
+{sp}{GTEQ}{sp}			            {return GTEQ;}
+{sp}{EQ}{sp}			            {return EQ;}
+{sp}{NEQ}{sp}			            {return NEQ;}
+{sp}{LB}{sp}				        {return LB;}
+{sp}{RB}{sp}				        {return RB;}
+{sp}{LCB}{sp}				        {return LCB;}
+{sp}{RCB}{sp}				        {return RCB;}
+{sp}{AND}{sp}				        {return AND;}
+{sp}{OR}{sp}				        {return OR;}
+{sp}{NOT}{sp}				        {return NOT;}
+{sp}{ASSIGN}{sp}				    {return ASSIGN;}
+{sp}{PLUS}{sp}				        {return PLUS;}
+{sp}{MINUS}{sp}				        {return MINUS;}
+{sp}{DIVIDE}{sp}				    {return DIVIDE;}
+{sp}{MULT}{sp}				        {return MULT;}
+{sp}{MOD}{sp}				        {return MOD;}
+{sp}{SEMI}{sp}				        {return SEMI;}
+{sp}{COLON}{sp}				        {return COLON;}
+{sp}{COMMA}{sp}				        {return COMMA;}
 
-{sp}HEADER{sp}				    {return HEADER;}
-{sp}MAIN{sp}				    {return MAIN;}
-{sp}FOR{sp}				        {return FOR;}
-{sp}WHILE{sp}				    {return WHILE;}
-{sp}IF{sp}				        {return IF;}
-{sp}ELSE{sp}				    {return ELSE;}
-{sp}SWITCH{sp}				    {return SWITCH;}
-{sp}CASE{sp}				    {return CASE;}
-{sp}DEFAULT{sp}                 {return DEFAULT;}
-{sp}RETURN{sp}				    {return RETURN;}
-{sp}GET{sp}				        {return GET;}
-{sp}PUT{sp}				        {return PUT;}
-{sp}BREAK{sp}				    {return BREAK;}
-{sp}CONTINUE{sp}				{return CONTINUE;}
-{sp}NUM_INT{sp}				    {return NUM_INT;}
-{sp}NUM_FP{sp}				    {return NUM_FP;}
-{sp}ID{sp}				        {return ID;}
-nl				                {yylineno++;}
-.				                {lexical_analysis = false; cerr<<"Lexical Error: Token unrecognised at Line No. "<<yylineno<<endl;}
+{sp}{HEADER}{sp}				    {return HEADER;}
+{sp}{MAIN}{sp}				        {return MAIN;}
+{sp}{FOR}{sp}				        {return FOR;}
+{sp}{WHILE}{sp}				        {return WHILE;}
+{sp}{IF}{sp}				        {return IF;}
+{sp}{ELSE}{sp}				        {return ELSE;}
+{sp}{SWITCH}{sp}				    {return SWITCH;}
+{sp}{CASE}{sp}				        {return CASE;}
+{sp}{DEFAULT}{sp}                   {return DEFAULT;}
+{sp}{RETURN}{sp}				    {return RETURN;}
+{sp}{GET}{sp}				        {return GET;}
+{sp}{PUT}{sp}				        {return PUT;}
+{sp}{BREAK}{sp}				        {return BREAK;}
+{sp}{CONTINUE}{sp}				    {return CONTINUE;}
+{sp}{NUM_INT}{sp}				    {return NUM_INT;}
+{sp}{NUM_FP}{sp}				    {return NUM_FP;}
+{sp}{ID}{sp}				        {return ID;}
+nl				                    {yylineno++;}
+.				                    {lexical_analysis = false; cerr<<"Lexical Error: Token unrecognised at Line No. "<<yylineno<<" "<<yytext<<endl;}
 
 %%
