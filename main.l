@@ -1,5 +1,6 @@
 %{
     #include<bits/stdc++.h>
+    #include "ast.h"
     #include "main.tab.h"
     
 
@@ -64,47 +65,47 @@ DEFAULT         "default"
 {sp}{INT}{sp}				        {return INT;}
 {sp}{FLOAT}{sp}				        {return FLOAT;}		 	
 {sp}{VOID}{sp}		                {return VOID;}
-{sp}{LT}{sp}			            {return LT;}
-{sp}{GT}{sp}			            {return GT;}
-{sp}{LTEQ}{sp}			            {return LTEQ;}
-{sp}{GTEQ}{sp}			            {return GTEQ;}
-{sp}{EQ}{sp}			            {return EQ;}
-{sp}{NEQ}{sp}			            {return NEQ;}
-{sp}{LB}{sp}				        {return LB;}
-{sp}{RB}{sp}				        {return RB;}
-{sp}{LCB}{sp}				        {return LCB;}
-{sp}{RCB}{sp}				        {return RCB;}
-{sp}{AND}{sp}				        {return AND;}
-{sp}{OR}{sp}				        {return OR;}
-{sp}{NOT}{sp}				        {return NOT;}
-{sp}{ASSIGN}{sp}				    {return ASSIGN;}
-{sp}{PLUS}{sp}				        {return PLUS;}
-{sp}{MINUS}{sp}				        {return MINUS;}
-{sp}{DIVIDE}{sp}				    {return DIVIDE;}
-{sp}{MULT}{sp}				        {return MULT;}
-{sp}{MOD}{sp}				        {return MOD;}
-{sp}{SEMI}{sp}				        {return SEMI;}
-{sp}{COLON}{sp}				        {return COLON;}
-{sp}{COMMA}{sp}				        {return COMMA;}
+{sp}{LT}{sp}			            {(yylval.node) = new AstNode("LT", yytext);return LT;}
+{sp}{GT}{sp}			            {(yylval.node) = new AstNode("GT", yytext);return GT;}
+{sp}{LTEQ}{sp}			            {(yylval.node) = new AstNode("LTEQ", yytext);return LTEQ;}
+{sp}{GTEQ}{sp}			            {(yylval.node) = new AstNode("GTEQ", yytext);return GTEQ;}
+{sp}{EQ}{sp}			            {(yylval.node) = new AstNode("EQ", yytext);return EQ;}
+{sp}{NEQ}{sp}			            {(yylval.node) = new AstNode("NEQ", yytext);return NEQ;}
+{sp}{LB}{sp}				        {(yylval.node) = new AstNode("LB", yytext);return LB;}
+{sp}{RB}{sp}				        {(yylval.node) = new AstNode("RB", yytext);return RB;}
+{sp}{LCB}{sp}				        {(yylval.node) = new AstNode("LCB", yytext);return LCB;}
+{sp}{RCB}{sp}				        {(yylval.node) = new AstNode("RCB", yytext);return RCB;}
+{sp}{AND}{sp}				        {(yylval.node) = new AstNode("AND", yytext);return AND;}
+{sp}{OR}{sp}				        {(yylval.node) = new AstNode("OR", yytext);return OR;}
+{sp}{NOT}{sp}				        {(yylval.node) = new AstNode("NOT", yytext);return NOT;}
+{sp}{ASSIGN}{sp}				    {(yylval.node) = new AstNode("ASSIGN", yytext);return ASSIGN;}
+{sp}{PLUS}{sp}				        {(yylval.node) = new AstNode("PLUS", yytext);return PLUS;}
+{sp}{MINUS}{sp}				        {(yylval.node) = new AstNode("MINUS", yytext);return MINUS;}
+{sp}{DIVIDE}{sp}				    {(yylval.node) = new AstNode("DIVIDE", yytext);return DIVIDE;}
+{sp}{MULT}{sp}				        {(yylval.node) = new AstNode("MULT", yytext);return MULT;}
+{sp}{MOD}{sp}				        {(yylval.node) = new AstNode("MOD", yytext);return MOD;}
+{sp}{SEMI}{sp}				        {(yylval.node) = new AstNode("SEMI", yytext);return SEMI;}
+{sp}{COLON}{sp}				        {(yylval.node) = new AstNode("COLON", yytext);return COLON;}
+{sp}{COMMA}{sp}				        {(yylval.node) = new AstNode("COMMA", yytext);return COMMA;}
 
 {sp}{HEADER}{sp}				    {return HEADER;}
-{sp}{MAIN}{sp}				        {return MAIN;}
-{sp}{FOR}{sp}				        {return FOR;}
-{sp}{WHILE}{sp}				        {return WHILE;}
-{sp}{IF}{sp}				        {return IF;}
-{sp}{ELSE}{sp}				        {return ELSE;}
-{sp}{SWITCH}{sp}				    {return SWITCH;}
-{sp}{CASE}{sp}				        {return CASE;}
-{sp}{DEFAULT}{sp}                   {return DEFAULT;}
-{sp}{RETURN}{sp}				    {return RETURN;}
-{sp}{GET}{sp}				        {return GET;}
-{sp}{PUT}{sp}				        {return PUT;}
-{sp}{BREAK}{sp}				        {return BREAK;}
-{sp}{CONTINUE}{sp}				    {return CONTINUE;}
-{sp}{NUM_INT}{sp}				    {return NUM_INT;}
-{sp}{NUM_FP}{sp}				    {return NUM_FP;}
-{sp}{ID}{sp}				        {return ID;}
-{sp}{ID_NOT_MAIN}{sp}               {return ID_NOT_MAIN;}
+{sp}{MAIN}{sp}				        {(yylval.node) = new AstNode("MAIN", yytext);return MAIN;}
+{sp}{FOR}{sp}				        {(yylval.node) = new AstNode("FOR", yytext);return FOR;}
+{sp}{WHILE}{sp}				        {(yylval.node) = new AstNode("WHILE", yytext);return WHILE;}
+{sp}{IF}{sp}				        {(yylval.node) = new AstNode("IF", yytext);return IF;}
+{sp}{ELSE}{sp}				        {(yylval.node) = new AstNode("ELSE", yytext);return ELSE;}
+{sp}{SWITCH}{sp}				    {(yylval.node) = new AstNode("SWITCH", yytext);return SWITCH;}
+{sp}{CASE}{sp}				        {(yylval.node) = new AstNode("CASE", yytext);return CASE;}
+{sp}{DEFAULT}{sp}                   {(yylval.node) = new AstNode("DEFAULT", yytext);return DEFAULT;}
+{sp}{RETURN}{sp}				    {(yylval.node) = new AstNode("RETURN", yytext);return RETURN;}
+{sp}{GET}{sp}				        {(yylval.node) = new AstNode("GET", yytext);return GET;}
+{sp}{PUT}{sp}				        {(yylval.node) = new AstNode("PUT", yytext);return PUT;}
+{sp}{BREAK}{sp}				        {(yylval.node) = new AstNode("BREAK", yytext);return BREAK;}
+{sp}{CONTINUE}{sp}				    {(yylval.node) = new AstNode("CONTINUE", yytext);return CONTINUE;}
+{sp}{NUM_INT}{sp}				    {(yylval.node) = new AstNode("NUM_INT", yytext);return NUM_INT;}
+{sp}{NUM_FP}{sp}				    {(yylval.node) = new AstNode("NUM_FP", yytext);return NUM_FP;}
+{sp}{ID}{sp}				        {(yylval.node) = new AstNode("ID", yytext);return ID;}
+{sp}{ID_NOT_MAIN}{sp}               {(yylval.node) = new AstNode("ID_NOT_MAIN", yytext);return ID_NOT_MAIN;}
 {nl}				                {yylineno++;}
 .				                    {lexical_analysis = false; cerr<<"Lexical Error: Token unrecognised at Line No. "<<yylineno<<" "<<yytext<<endl;}
 

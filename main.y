@@ -1,5 +1,6 @@
 %{
     #include<bits/stdc++.h>
+    #include "ast.h"
 
     using namespace std;
 
@@ -11,8 +12,34 @@
     
 %}
 
-%token INT FLOAT VOID LT GT LTEQ GTEQ EQ NEQ AND OR NOT ASSIGN PLUS MINUS DIVIDE MULT MOD SEMI COLON COMMA LB RB LCB RCB
-%token NUM_INT NUM_FP ID HEADER MAIN FOR WHILE IF ELSE SWITCH CASE RETURN GET PUT BREAK CONTINUE DEFAULT ID_NOT_MAIN
+%union
+{
+	AstNode *node;
+    Variable *varnode;
+    Function* funcnode;
+    Arglist* arglist;
+    Type tp;
+}
+
+%token<node> LT GT LTEQ GTEQ EQ NEQ AND OR NOT ASSIGN PLUS MINUS DIVIDE MULT MOD SEMI COLON COMMA LB RB LCB RCB
+
+%type<varnode> variable name 
+
+%type<funcnode> func_declaration main_function function_calls
+
+%type<arglist> arguments_list fc_argument_list argument
+
+%type<tp> data_type_var data_type_func
+
+%token INT FLOAT VOID 
+
+%token<node> HEADER NUM_INT NUM_FP ID MAIN FOR WHILE IF ELSE SWITCH CASE RETURN GET PUT BREAK CONTINUE DEFAULT ID_NOT_MAIN
+
+%type<node> program header_files global_declaration_list global_declaration variable_declaration variable_list  value statements  
+%type<node> expression read_input print_output conditional_expr if_expr switch_expr looping_expr for_expr while_expr conditions logical_expr
+%type<node> and_expr relation_expr arithmetic_expr div_mul_expr unary_expr term op1 op2 op3
+
+%start program
 
 %%
 
