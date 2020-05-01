@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 
+
 using namespace std;
 
 enum Type
@@ -17,6 +18,7 @@ protected:
     string label; // lexeme/token/node name
     string value; // lexeme/token/node value
     vector<AstNode *> child;
+    Type type;
 
 public:
     int numChild;
@@ -38,6 +40,21 @@ public:
     {
         assert(i < numChild);
         return child[i];
+    }
+
+    string getValue()
+    {
+        return value;
+    }
+
+    void setType(Type tp)
+    {
+        type = tp;
+    }
+
+    Type getType()
+    {
+        return type;
     }
 };
 

@@ -62,9 +62,9 @@ DEFAULT         "default"
 
 %%
 
-{sp}{INT}{sp}				        {return INT;}
-{sp}{FLOAT}{sp}				        {return FLOAT;}		 	
-{sp}{VOID}{sp}		                {return VOID;}
+{sp}{INT}{sp}				        {(yylval.node) = new AstNode("INT", yytext); (yylval.node)->setType(_integer);return INT;}
+{sp}{FLOAT}{sp}				        {(yylval.node) = new AstNode("FLOAT", yytext);(yylval.node)->setType(_float);return FLOAT;}		 	
+{sp}{VOID}{sp}		                {(yylval.node) = new AstNode("VOID", yytext);(yylval.node)->setType(_void);return VOID;}
 {sp}{LT}{sp}			            {(yylval.node) = new AstNode("LT", yytext);return LT;}
 {sp}{GT}{sp}			            {(yylval.node) = new AstNode("GT", yytext);return GT;}
 {sp}{LTEQ}{sp}			            {(yylval.node) = new AstNode("LTEQ", yytext);return LTEQ;}
