@@ -10,21 +10,22 @@
     extern int yylineno;
 
     AstNode* AstRoot;
+    std::vector<AstNode*> varlist;
+    std::pair<Type, string> arg;
     
 %}
 
 %union
 {
-	  AstNode *node;
+	AstNode *node;
     Arglist* arglist;
     Type tp;
-    vector<Astnode*> varlist;
-    pair<Type, string> arg;
+
 }
 
 %token<node> LT GT LTEQ GTEQ EQ NEQ AND OR NOT ASSIGN PLUS MINUS DIVIDE MULT MOD SEMI COLON COMMA LB RB LCB RCB
 
-%type<varlist> variable_list
+%type<node> variable_list
 
 %type<node> variable 
 %type<node> name function_calls fc_argument_list
@@ -33,9 +34,9 @@
 
 %type<arglist> arguments_list  
 
-%type<arg> argument
+%type<node> argument
 
-%type<tp> data_type_var data_type_func
+%type<node> data_type_var data_type_func
 
 %token INT FLOAT VOID 
 
@@ -78,17 +79,19 @@ global_declaration : variable_declaration
 variable_declaration : data_type_var variable_list SEMI
                        {
                         $$ = new AstNode("variable_declaration", "",_astnode); 
-                        for(int i=0;i<$2.size();i++)
-                        {
-                          $$->addChild($2[i]);
-                          $2[i]->setDataType($1);
-                        }
+                        $$->addChild($1);$$->addChild($2);
+                        // for(int i=0;i<$2.size();i++)
+                        // {
+                        //   $$->addChild($2[i]);
+                        //   $2[i]->setDataType($1);
+                        // }
                        }
                      ;
 variable_list : variable_list COMMA variable 
-                {$$.insert($$.end(),$1.begin(),$1.end());$$.push_back($3);}
+                // {$$.insert($$.end(),$1.begin(),$1.end());$$.push_back($3);}
+                {$$ = new AstNode("variable_list", "", _astnode);$$->addChild($1); $$->addChild($3);varlist.push_back($3);}
               | variable
-                {$$.push_back($1);}
+                {$$ = new AstNode("variable_list", "", _astnode);$$->addChild($1);varlist.push_back($1);}
               ;
 
 variable : name
@@ -100,7 +103,7 @@ variable : name
 func_declaration : data_type_func ID_NOT_MAIN LB arguments_list RB LCB statements RCB  
                    {
                      $$ = new AstNode("func_declaration", $2->getValue(),_funcnode);
-		                 $$->setDataType($1); 
+		                 $$->setDataType($1->getDataType()); 
 		                 $$->arglist = $4;
 		                 $$->addChild($7);
                    }
@@ -109,19 +112,20 @@ func_declaration : data_type_func ID_NOT_MAIN LB arguments_list RB LCB statement
 arguments_list : argument
                  {
 		              $$ = new Arglist(); 
-	                $$->addArgument($1.first,$1.second);
+	                $$->addArgument($1->getDataType(),$1->getValue());
                  }
                 | argument COMMA arguments_list
                  {
 		                $$ = new Arglist(); 
-	                  $$->addArgument($1.first,$1.second);
+	                  $$->addArgument($1->getDataType(),$1->getValue());
 		                 $$->concatArglist($3);
                  }
 	              |
                ;
 
 argument : data_type_var name
-           {$$.first = $1; $$.second = $2.getValue();}
+            {$$ = new AstNode("argument", "", _astnode);$$->addChild($1); $$->addChild($2);$$->setDataType($1->getDataType());}
+        //    {$$->first = $1; $$.second = $2->getValue();}
          ;
 
 data_type_var : INT
