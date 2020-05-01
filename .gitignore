@@ -1,5 +1,6 @@
-.main
-.main.output
-.main.tab.c
-.main.tab.h
-.lex.yy.c
+main
+main.output
+main.tab.c
+main.tab.h
+lex.yy.c
+.vscode/

@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 
-
 using namespace std;
 
 enum Type
@@ -8,71 +7,14 @@ enum Type
     _integer,
     _float,
     _void,
-    _function,
     _none
 };
 
-class AstNode
+enum NodeType
 {
-protected:
-    string label; // lexeme/token/node name
-    string value; // lexeme/token/node value
-    vector<AstNode *> child;
-    Type type;
-
-public:
-    int numChild;
-
-    AstNode(string lb, string val)
-    {
-        label = lb;
-        value = val;
-        numChild = 0;
-    }
-
-    void addChild(AstNode *cd)
-    {
-        child.push_back(cd);
-        numChild = child.size();
-    }
-
-    AstNode *getChild(int i)
-    {
-        assert(i < numChild);
-        return child[i];
-    }
-
-    string getValue()
-    {
-        return value;
-    }
-
-    void setType(Type tp)
-    {
-        type = tp;
-    }
-
-    Type getType()
-    {
-        return type;
-    }
-};
-
-class Variable : public AstNode
-{
-private:
-    Type dataType;
-
-public:
-    Type getDataType()
-    {
-        return dataType;
-    }
-
-    void setDataType(Type tp)
-    {
-        dataType = tp;
-    }
+    _astnode,
+    _varnode,
+    _funcnode
 };
 
 class Arglist
@@ -101,23 +43,85 @@ public:
         assert(i < arguments.size());
         return arguments[i];
     }
+
+    void concatArglist(Arglist *lst)
+    {
+        arguments.insert(arguments.end(), (lst->arguments).begin(), (lst->arguments).end());
+    }
 };
 
-class Function : public AstNode
+class AstNode
 {
-private:
-    Type returnType;
+protected:
+    string label; // lexeme/token/node name
+    string value; // lexeme/token/node value
+    NodeType nodetype;
+
+    Type dataType;
 
 public:
+    vector<AstNode *> child;
+    int numChild;
+
     Arglist *arglist;
+
+    AstNode(string lb, string val, NodeType nt)
+    {
+        label = lb;
+        value = val;
+        nodetype = nt;
+        numChild = 0;
+    }
+
+    void setlabel(string s)
+    {
+        label = s;
+    }
+
+    string getlabel()
+    {
+        return label;
+    }
+
+    void setValue(string s)
+    {
+        value = s;
+    }
+
+    string getValue()
+    {
+        return value;
+    }
+
+    NodeType getNodeType()
+    {
+        return nodetype;
+    }
+
+    void setNodeType(NodeType nt)
+    {
+        nodetype = nt;
+    }
+
+    void addChild(AstNode *cd)
+    {
+        child.push_back(cd);
+        numChild = child.size();
+    }
+
+    AstNode *getChild(int i)
+    {
+        assert(i < numChild);
+        return child[i];
+    }
 
     Type getDataType()
     {
-        return returnType;
+        return dataType;
     }
 
     void setDataType(Type tp)
     {
-        returnType = tp;
+        dataType = tp;
     }
 };
