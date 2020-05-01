@@ -18,8 +18,8 @@
 %union
 {
 	AstNode *node;
-    Arglist* arglist;
-    Type tp;
+  Arglist* arglist;
+  Type tp;
 
 }
 
@@ -38,7 +38,7 @@
 
 %type<node> data_type_var data_type_func
 
-%token INT FLOAT VOID 
+%token<node> INT FLOAT VOID 
 
 %token<node> HEADER NUM_INT NUM_FP ID MAIN FOR WHILE IF ELSE SWITCH CASE RETURN GET PUT BREAK CONTINUE DEFAULT ID_NOT_MAIN
 
@@ -129,17 +129,17 @@ argument : data_type_var name
          ;
 
 data_type_var : INT
-                {$$ = _integer;}
+                {$$ = new AstNode("data_type_var", $1->getValue(),_astnode); $$->addChild($1);}
               | FLOAT 
-                {$$ = _float;}
+                {$$ = new AstNode("data_type_var", $1->getValue(),_astnode); $$->addChild($1);}
               ;
 
 data_type_func : INT
-                 {$$ = _integer;}
+                 {$$ = new AstNode("data_type_var", $1->getValue(),_astnode); $$->addChild($1);}
                | FLOAT
-                 {$$ = _float;}
+                 {$$ = new AstNode("data_type_var", $1->getValue(),_astnode); $$->addChild($1);}
                | VOID 
-                 {$$ = _void;}
+                 {$$ = new AstNode("data_type_var", $1->getValue(),_astnode); $$->addChild($1);}
                ;
 
 name : ID {$$ = new AstNode("name", $1->getValue(),_astnode); $$->addChild($1);}
@@ -154,7 +154,7 @@ value : NUM_FP
 main_function : data_type_func MAIN LB RB LCB statements RCB
 		          {
                 $$ = new AstNode("main_function", $2->getValue(),_funcnode);
-		            $$->setDataType($1); 
+		            $$->setDataType($1->getDataType()); 
 		            $$->addChild($6);
               }                
 	            ;
@@ -405,7 +405,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    print_tree_structure(AstRoot,0);
+   // print_tree_structure(AstRoot,0);
     
 }
 
