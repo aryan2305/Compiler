@@ -120,7 +120,7 @@ arguments_list : argument
 	                  $$->addArgument($1->getDataType(),$1->getValue());
 		                 $$->concatArglist($3);
                  }
-	              |
+	              | {$$ = new Arglist(); }
                ;
 
 argument : data_type_var name
@@ -172,8 +172,7 @@ expression : variable_declaration
            | print_output
              {$$ = new AstNode("expression", "",_astnode); $$->addChild($1);}
            | conditional_expr   
-             {$$ = new AstNode("expression", "",_astnode); $$->addChild($1);}
-        //    | assignment_expr SEMI       
+             {$$ = new AstNode("expression", "",_astnode); $$->addChild($1);}     
            | looping_expr
              {$$ = new AstNode("expression", "",_astnode); $$->addChild($1);}
            | return_expr
@@ -238,12 +237,7 @@ while_expr : WHILE LB conditions RB LCB statements RCB
              {$$ = new AstNode("while_expr", $1->getValue(),_astnode); $$->addChild($3); $$->addChild($6);}
            ;
 
-// assignment_expr : name ASSIGN arithmetic_expr
-//                 | data_type_var name ASSIGN arithmetic_expr
-//                 |
-//                 ;
-
-conditions : variable EQ conditions
+conditions : variable ASSIGN conditions
              {$$ = new AstNode("conditions",  $2->getValue(),_astnode); $$->addChild($1); $$->addChild($3);}
            | logical_expr
              {$$ = new AstNode("conditions", "",_astnode); $$->addChild($1);}
@@ -252,7 +246,7 @@ conditions : variable EQ conditions
 logical_expr : logical_expr OR and_expr
                {$$ = new AstNode("logical_expr", $2->getValue(),_astnode); $$->addChild($1); $$->addChild($3);}
              | and_expr
-               {$$ - new AstNode("logical_expr", "",_astnode); $$->addChild($1);}
+               {$$ = new AstNode("logical_expr", "",_astnode); $$->addChild($1);}
              ;
 
 and_expr : relation_expr AND and_expr
@@ -364,14 +358,15 @@ void print_tree_structure(AstNode *node, int spaces)
 {
   if(node != NULL)
   {
+    for(int i = 0; i < spaces; i++)
+      	cout << ' ';
+    	cout << "   " << node->getlabel() << endl;
+
     int n = node->numChild;
     for(int i=0;i<n/2;i++)
     {
         print_tree_structure(node->getChild(i), spaces + 5);
     }
-    for(int i = 0; i < spaces; i++)
-      	cout << ' ';
-    	cout << "   " << node->getlabel() << endl;
     for(int i=n/2;i<n;i++)
         print_tree_structure(node->getChild(i), spaces + 5);
   }
@@ -405,7 +400,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-   // print_tree_structure(AstRoot,0);
+   print_tree_structure(AstRoot,0);
     
 }
 
